@@ -1,0 +1,1182 @@
+{
+  "version": "2026-10-20",
+  "nota": "Catálogo semilla del motor de reglas. Cada trámite indica nivel de confianza: 'oficial' (fuente gubernamental leída), 'secundario' (tercero o ficha estatal antigua), 'no_verificado'. Antes de presentar cualquier trámite, el sistema debe re-verificar en la fuente si verificado_en tiene más de 90 días.",
+  "hechos_del_establecimiento": {
+    "giros": "lista: consultorio_general | consultorio_estetico | farmacia | clinica_cirugia",
+    "hace_cirugia": "bool (liposucción, lipotransferencia, cualquier acto quirúrgico/obstétrico)",
+    "maneja_controlados": "bool (estupefacientes/psicotrópicos, incluye tramadol desde 14-jul-2026)",
+    "vende_antibioticos": "bool",
+    "tiene_rayos_x": "bool",
+    "hace_publicidad": "bool",
+    "publicidad_medios": "lista: internet_tv | radio | prensa | folletos | exteriores",
+    "servicio_individual": "bool (un solo médico anunciando su propio servicio)",
+    "obra_nueva_o_remodelacion": "bool",
+    "m2_construidos": "número",
+    "m2_predio": "número",
+    "estado": "clave INEGI, p. ej. MEX",
+    "municipio": "nombre normalizado, p. ej. metepec",
+    "nivel_riesgo_pc": "bajo | mediano | alto (si no se sabe, clinica_cirugia => mediano)",
+    "uso_suelo_no_compatible": "bool (local en zona habitacional sin uso de suelo comercial; Toluca art. 70)"
+  },
+  "tramites": [
+    {
+      "id": "cofepris_05_036",
+      "nombre": "Aviso de funcionamiento y de responsable sanitario de establecimiento de servicios de salud (consultorios)",
+      "homoclave": "COFEPRIS-05-036",
+      "nivel": "federal",
+      "autoridad": "COFEPRIS (DIGIPRiS)",
+      "tipo": "aviso",
+      "aplica_si": {
+        "all": [
+          {
+            "any_giro": [
+              "consultorio_general",
+              "consultorio_estetico"
+            ]
+          },
+          {
+            "not": "hace_cirugia"
+          }
+        ]
+      },
+      "requisitos": [
+        "e.firma del propietario o representante",
+        "Datos del establecimiento y clave SCIAN correcta",
+        "Responsable sanitario: médico con cédula y horario",
+        "Acta constitutiva y poder si es persona moral"
+      ],
+      "costo_mxn": 0,
+      "plazo": "Acuse inmediato",
+      "vigencia": "Indefinida; modificar o dar baja ante cambios",
+      "canal": "en_linea",
+      "url": "https://digipris.cofepris.gob.mx",
+      "requiere_usuario": [
+        "login_efirma"
+      ],
+      "fuente": "https://ventanilla.puebla.gob.mx/textos/1/PUEBLA/doc/150035_Manual_de_uso_cofepris_05_036_y_05_056.pdf",
+      "confianza": "oficial",
+      "verificado_en": "2026-10-19"
+    },
+    {
+      "id": "cofepris_05_039",
+      "nombre": "Permiso sanitario de construcción de establecimientos médicos",
+      "homoclave": "COFEPRIS-05-039",
+      "nivel": "estatal_descentralizado",
+      "autoridad": "COFEPRIS / COPRIS estatal",
+      "tipo": "permiso",
+      "aplica_si": {
+        "all": [
+          {
+            "any": [
+              {
+                "giro": "clinica_cirugia"
+              },
+              "hace_cirugia"
+            ]
+          },
+          "obra_nueva_o_remodelacion"
+        ]
+      },
+      "requisitos": [
+        "Programa médico-arquitectónico según lineamientos sept-2026"
+      ],
+      "costo_mxn": 0,
+      "plazo": "60 días hábiles (bajará a 30)",
+      "vigencia": "Por obra",
+      "canal": "ventanilla",
+      "precede_a": [
+        "cofepris_05_034_H"
+      ],
+      "requiere_usuario": [
+        "firma_solicitud"
+      ],
+      "fuente": "https://sidof.segob.gob.mx/notas/docFuente/5786603",
+      "confianza": "oficial",
+      "verificado_en": "2026-10-19"
+    },
+    {
+      "id": "cofepris_05_034_H",
+      "nombre": "Licencia Sanitaria de Establecimientos de Servicios de Salud — supuesto H (actos quirúrgicos y/u obstétricos)",
+      "homoclave": "COFEPRIS-05-034",
+      "nivel": "estatal_descentralizado",
+      "autoridad": "COPRIS estatal (Edomex: COPRISEM, CIS Toluca)",
+      "tipo": "licencia",
+      "aplica_si": {
+        "any": [
+          {
+            "giro": "clinica_cirugia"
+          },
+          "hace_cirugia"
+        ]
+      },
+      "requisitos": [
+        "Formato o formulario digital",
+        "Pago de derechos",
+        "Programa médico según Lineamientos sept-2026",
+        "Aviso de responsable sanitario (05-037)",
+        "Visita de verificación previa"
+      ],
+      "costo_mxn": 29896.54,
+      "plazo": "60 días hábiles (43 cuando opere la herramienta digital)",
+      "vigencia": "Indeterminada",
+      "canal": "ventanilla",
+      "requiere_usuario": [
+        "firma_solicitud",
+        "pago_derechos"
+      ],
+      "fuente": "https://www.ssm.gob.mx/portal/coprisem/descargables/CATALOGO_Y_COSTOS_DE_TRAMITES.pdf",
+      "confianza": "oficial",
+      "verificado_en": "2026-10-19",
+      "alerta": "Monto 2026 según LFD (DOF 28-dic-2025). Una ficha del ISEM aún muestra $27,554; confirmar al pagar."
+    },
+    {
+      "id": "cofepris_05_037",
+      "nombre": "Aviso de responsable sanitario de establecimiento de servicios de salud con licencia",
+      "homoclave": "COFEPRIS-05-037",
+      "nivel": "estatal_descentralizado",
+      "autoridad": "COPRIS estatal",
+      "tipo": "aviso",
+      "aplica_si": {
+        "any": [
+          {
+            "giro": "clinica_cirugia"
+          },
+          "hace_cirugia"
+        ]
+      },
+      "requisitos": [
+        "Formato FF-COFEPRIS-16/17",
+        "Título profesional",
+        "Certificado de especialidad (desde may-2026); la Alta Directiva 2024 pide especialidad quirúrgica"
+      ],
+      "costo_mxn": 0,
+      "plazo": "No indicado",
+      "vigencia": "Hasta que cambie el responsable (avisar en 15 días naturales)",
+      "canal": "ventanilla",
+      "requiere_usuario": [
+        "firma_solicitud"
+      ],
+      "fuente": "https://www.gob.mx/cms/uploads/attachment/file/908609/ALTA_DIRCTIVA_CIR_ESTET_VPC.pdf",
+      "confianza": "oficial",
+      "verificado_en": "2026-10-19",
+      "alerta": "Si el responsable no tiene certificación de especialidad quirúrgica vigente, este aviso puede ser observado."
+    },
+    {
+      "id": "cofepris_05_006",
+      "nombre": "Aviso de funcionamiento y de responsable sanitario de establecimientos de insumos para la salud (farmacia sin controlados)",
+      "homoclave": "COFEPRIS-05-006",
+      "nivel": "federal",
+      "autoridad": "COFEPRIS (DIGIPRiS)",
+      "tipo": "aviso",
+      "aplica_si": {
+        "all": [
+          {
+            "giro": "farmacia"
+          },
+          {
+            "not": "maneja_controlados"
+          }
+        ]
+      },
+      "requisitos": [
+        "e.firma",
+        "Datos del establecimiento",
+        "Responsable sanitario con título de farmacia o química"
+      ],
+      "costo_mxn": 0,
+      "plazo": "Acuse inmediato",
+      "vigencia": "Indefinida",
+      "canal": "en_linea",
+      "url": "https://digipris.cofepris.gob.mx",
+      "requiere_usuario": [
+        "login_efirma"
+      ],
+      "fuente": "https://sidof.segob.gob.mx/notas/docFuente/5786603",
+      "confianza": "oficial",
+      "verificado_en": "2026-10-19"
+    },
+    {
+      "id": "cofepris_05_001_G",
+      "nombre": "Licencia sanitaria de farmacia o botica con venta de medicamentos controlados (modalidad G)",
+      "homoclave": "COFEPRIS-05-001-G",
+      "nivel": "estatal_descentralizado",
+      "autoridad": "Jurisdicción sanitaria / COPRIS estatal",
+      "tipo": "licencia",
+      "aplica_si": {
+        "all": [
+          {
+            "giro": "farmacia"
+          },
+          "maneja_controlados"
+        ]
+      },
+      "requisitos": [
+        "Formato",
+        "Identificación",
+        "Acta constitutiva",
+        "RFC",
+        "Pago de derechos"
+      ],
+      "costo_mxn": 2065.44,
+      "plazo": "3 meses (negativa ficta si no hay respuesta)",
+      "vigencia": "Indeterminada",
+      "canal": "ventanilla",
+      "requiere_usuario": [
+        "firma_solicitud",
+        "pago_derechos"
+      ],
+      "fuente": "https://www.gob.mx/cms/uploads/attachment/file/652310/COFEPRIS-05-001-G.pdf",
+      "confianza": "oficial",
+      "verificado_en": "2026-10-19"
+    },
+    {
+      "id": "cofepris_05_011",
+      "nombre": "Aviso de responsable sanitario de establecimiento de insumos con licencia",
+      "homoclave": "COFEPRIS-05-011",
+      "nivel": "estatal_descentralizado",
+      "autoridad": "Jurisdicción sanitaria",
+      "tipo": "aviso",
+      "aplica_si": {
+        "all": [
+          {
+            "giro": "farmacia"
+          },
+          "maneja_controlados"
+        ]
+      },
+      "requisitos": [
+        "Formato",
+        "Título del responsable sanitario"
+      ],
+      "costo_mxn": 0,
+      "plazo": "No indicado",
+      "vigencia": "Hasta cambio de responsable",
+      "canal": "ventanilla",
+      "requiere_usuario": [
+        "firma_solicitud"
+      ],
+      "fuente": "https://saludzac.gob.mx/home/images/Direcciones/Reg-Sanitaria/TRAMITES-DEL-ESTADO-DPCRS.pdf",
+      "confianza": "oficial",
+      "verificado_en": "2026-10-19"
+    },
+    {
+      "id": "cofepris_03_005",
+      "nombre": "Permiso de libros de control de estupefacientes y psicotrópicos",
+      "homoclave": "COFEPRIS-03-005",
+      "nivel": "estatal_descentralizado",
+      "autoridad": "COPRIS estatal",
+      "tipo": "permiso",
+      "aplica_si": {
+        "all": [
+          "maneja_controlados",
+          {
+            "any_giro": [
+              "farmacia",
+              "clinica_cirugia"
+            ]
+          }
+        ]
+      },
+      "requisitos": [
+        "Licencia sanitaria",
+        "Aviso de responsable sanitario",
+        "Libros originales foliados",
+        "Formato"
+      ],
+      "costo_mxn": 0,
+      "plazo": "5 a 10 días hábiles",
+      "vigencia": "Por libro",
+      "canal": "ventanilla",
+      "requiere_usuario": [
+        "firma_solicitud",
+        "entrega_fisica_libros"
+      ],
+      "fuente": "https://saludzac.gob.mx/home/images/Direcciones/Reg-Sanitaria/TRAMITES-DEL-ESTADO-DPCRS.pdf",
+      "confianza": "oficial",
+      "verificado_en": "2026-10-19",
+      "alerta": "El tramadol es psicotrópico controlado desde el 14-jul-2026 (fuente periodística; confirmar en DOF)."
+    },
+    {
+      "id": "cofepris_03_014",
+      "nombre": "Aviso de previsiones de compraventa de medicamentos con estupefacientes (semestral)",
+      "homoclave": "COFEPRIS-03-014",
+      "nivel": "estatal_descentralizado",
+      "autoridad": "Jurisdicción sanitaria",
+      "tipo": "aviso_recurrente",
+      "aplica_si": {
+        "all": [
+          {
+            "giro": "farmacia"
+          },
+          "maneja_controlados"
+        ]
+      },
+      "requisitos": [
+        "Denominación, presentación y cantidad prevista"
+      ],
+      "costo_mxn": 0,
+      "plazo": "—",
+      "vigencia": "Semestral",
+      "recurrencia_meses": 6,
+      "canal": "ventanilla",
+      "requiere_usuario": [
+        "firma_solicitud"
+      ],
+      "fuente": "https://saludzac.gob.mx/home/images/Direcciones/Reg-Sanitaria/TRAMITES-DEL-ESTADO-DPCRS.pdf",
+      "confianza": "oficial",
+      "verificado_en": "2026-10-19"
+    },
+    {
+      "id": "cofepris_05_024",
+      "nombre": "Licencia sanitaria de establecimientos con fuentes de radiación con fines médicos — rayos X",
+      "homoclave": "COFEPRIS-05-024",
+      "nivel": "estatal_descentralizado",
+      "autoridad": "COPRIS estatal",
+      "tipo": "licencia",
+      "aplica_si": "tiene_rayos_x",
+      "requisitos": [
+        "Cédula técnica",
+        "Manuales de procedimientos",
+        "Manual de Seguridad y Protección Radiológica",
+        "Programa de Garantía de Calidad",
+        "Memoria de blindajes y levantamiento de niveles (equipo fijo)"
+      ],
+      "costo_mxn": 9476.16,
+      "plazo": "60 días hábiles",
+      "vigencia": "Indeterminada",
+      "canal": "ventanilla",
+      "requiere_usuario": [
+        "firma_solicitud",
+        "pago_derechos"
+      ],
+      "fuente": "https://www.ssm.gob.mx/portal/coprisem/descargables/CATALOGO_Y_COSTOS_DE_TRAMITES.pdf",
+      "confianza": "oficial",
+      "verificado_en": "2026-10-19"
+    },
+    {
+      "id": "cofepris_05_026",
+      "nombre": "Permiso de responsable de la operación y funcionamiento de equipos de rayos X",
+      "homoclave": "COFEPRIS-05-026",
+      "nivel": "estatal_descentralizado",
+      "autoridad": "COPRIS estatal",
+      "tipo": "permiso",
+      "aplica_si": "tiene_rayos_x",
+      "requisitos": [
+        "Formato",
+        "Acreditación del responsable"
+      ],
+      "costo_mxn": 4040.13,
+      "plazo": "No indicado",
+      "vigencia": "No indicada",
+      "canal": "ventanilla",
+      "requiere_usuario": [
+        "firma_solicitud",
+        "pago_derechos"
+      ],
+      "fuente": "https://www.ssm.gob.mx/portal/coprisem/descargables/CATALOGO_Y_COSTOS_DE_TRAMITES.pdf",
+      "confianza": "oficial",
+      "verificado_en": "2026-10-19"
+    },
+    {
+      "id": "cofepris_02_001",
+      "nombre": "Permiso de publicidad (servicios de salud y procedimientos de embellecimiento)",
+      "homoclave": "COFEPRIS-02-001",
+      "nivel": "estatal_descentralizado",
+      "autoridad": "COPRIS estatal (nacional o en 2+ estados: COFEPRIS)",
+      "tipo": "permiso_por_campana",
+      "aplica_si": {
+        "all": [
+          "hace_publicidad",
+          {
+            "any": [
+              {
+                "any_giro": [
+                  "consultorio_estetico",
+                  "clinica_cirugia"
+                ]
+              },
+              {
+                "not": "servicio_individual"
+              }
+            ]
+          }
+        ]
+      },
+      "requisitos": [
+        "Formato FF-COFEPRIS-13 o formulario digital",
+        "Pago por medio",
+        "Proyecto publicitario (guion, arte o video final)",
+        "Sustento de las afirmaciones"
+      ],
+      "costo_mxn_por_medio": {
+        "internet_tv": 44252.23,
+        "radio": 3485.4,
+        "prensa": 1161.8,
+        "folletos": 800.35,
+        "exteriores": 6196.26
+      },
+      "plazo": "20 días hábiles; afirmativa ficta si no hay respuesta",
+      "vigencia": "Por campaña",
+      "canal": "formulario_o_cis",
+      "requiere_usuario": [
+        "firma_solicitud",
+        "pago_derechos"
+      ],
+      "bloquea": [
+        "publicacion_anuncios"
+      ],
+      "fuente": "https://www.ssm.gob.mx/portal/coprisem/descargables/CATALOGO_Y_COSTOS_DE_TRAMITES.pdf",
+      "confianza": "oficial",
+      "verificado_en": "2026-10-19",
+      "alerta": "El art. 79 del Reglamento de Publicidad se leyó en una copia no oficial; cotejar con la Cámara de Diputados."
+    },
+    {
+      "id": "cofepris_02_002",
+      "nombre": "Aviso de publicidad — actividades profesionales (médico individual)",
+      "homoclave": "COFEPRIS-02-002",
+      "nivel": "federal",
+      "autoridad": "COFEPRIS (DIGIPRiS)",
+      "tipo": "aviso",
+      "aplica_si": {
+        "all": [
+          "hace_publicidad",
+          "servicio_individual",
+          {
+            "none_giro": [
+              "consultorio_estetico",
+              "clinica_cirugia"
+            ]
+          }
+        ]
+      },
+      "requisitos": [
+        "FF-COFEPRIS-13",
+        "Proyecto con número de cédula o de especialidad",
+        "Aviso de funcionamiento previo con SCIAN correcto"
+      ],
+      "costo_mxn": 0,
+      "plazo": "Acuse",
+      "vigencia": "—",
+      "canal": "en_linea",
+      "url": "https://digipris.cofepris.gob.mx",
+      "requiere_usuario": [
+        "login_efirma"
+      ],
+      "fuente": "https://www.gob.mx/cms/uploads/attachment/file/795383/Manual_Aviso_de_Publicidad.pdf",
+      "confianza": "oficial",
+      "verificado_en": "2026-10-19"
+    },
+    {
+      "id": "semarnat_rpbi",
+      "nombre": "Registro como generador (o microgenerador) de RPBI + contrato con recolector autorizado",
+      "homoclave": "SEMARNAT-07-017 (no verificado)",
+      "nivel": "federal",
+      "autoridad": "SEMARNAT (o estado si hay convenio para microgeneradores)",
+      "tipo": "registro",
+      "aplica_si": {
+        "any_giro": [
+          "consultorio_general",
+          "consultorio_estetico",
+          "clinica_cirugia"
+        ]
+      },
+      "requisitos": [
+        "Estimación anual de RPBI (<400 kg/año = microgenerador)",
+        "Contrato con empresa recolectora autorizada",
+        "Conservar manifiestos de entrega"
+      ],
+      "costo_mxn": null,
+      "plazo": "No verificado",
+      "vigencia": "Indefinida; manifiestos continuos",
+      "canal": "no_verificado",
+      "requiere_usuario": [
+        "login_efirma"
+      ],
+      "fuente": "https://www.gob.mx/cms/uploads/attachment/file/603020/1_Regulaci_n_en_materia_de_RP_18.11.2020.pdf",
+      "confianza": "secundario",
+      "verificado_en": "2026-10-19"
+    },
+    {
+      "id": "mex_coprisem_sellos_libros",
+      "nombre": "Sellado de libros (registro diario de pacientes, infectocontagiosas, cirugías, defunciones)",
+      "nivel": "estatal",
+      "estado": "MEX",
+      "autoridad": "COPRISEM — Subdirección de Normatividad Sanitaria",
+      "tipo": "tramite",
+      "aplica_si": {
+        "any_giro": [
+          "consultorio_general",
+          "consultorio_estetico",
+          "clinica_cirugia"
+        ]
+      },
+      "requisitos": [
+        "Escrito libre",
+        "Copia del aviso de funcionamiento o licencia",
+        "Libreta tipo florete"
+      ],
+      "costo_mxn": 0,
+      "plazo": "No verificado",
+      "vigencia": "Por libro",
+      "canal": "ventanilla",
+      "url": "https://salud.edomex.gob.mx/isem/rs_tramites_servicios",
+      "requiere_usuario": [
+        "firma_solicitud",
+        "entrega_fisica_libros"
+      ],
+      "fuente": "https://salud.edomex.gob.mx/isem/rs_tramites_servicios",
+      "confianza": "oficial",
+      "verificado_en": "2026-10-19"
+    },
+    {
+      "id": "mex_evie",
+      "nombre": "Evaluación de Impacto Estatal (sustituye al DUF)",
+      "nivel": "estatal",
+      "estado": "MEX",
+      "autoridad": "COIME — Secretaría de Desarrollo Urbano",
+      "tipo": "dictamen",
+      "aplica_si": {
+        "any": [
+          {
+            "gt": [
+              "m2_construidos",
+              3000
+            ]
+          },
+          {
+            "gt": [
+              "m2_predio",
+              6000
+            ]
+          }
+        ]
+      },
+      "requisitos": [
+        "Evaluaciones técnicas: desarrollo urbano, movilidad, protección civil, medio ambiente, agua"
+      ],
+      "costo_mxn": null,
+      "plazo": "No verificado",
+      "vigencia": "—",
+      "canal": "ventanilla",
+      "requiere_usuario": [
+        "firma_solicitud",
+        "pago_derechos"
+      ],
+      "fuente": "https://dgi.edomex.gob.mx/aplicaciones/mejores_practicas/arbol/2015/files/312-23.pdf.pdf",
+      "confianza": "secundario",
+      "verificado_en": "2026-10-19"
+    },
+    {
+      "id": "mex_pc_mediano_alto",
+      "nombre": "Dictamen de protección civil de mediano o alto riesgo",
+      "nivel": "estatal",
+      "estado": "MEX",
+      "autoridad": "Coordinación General de Protección Civil y Gestión Integral del Riesgo",
+      "tipo": "dictamen",
+      "aplica_si": {
+        "any": [
+          {
+            "in": [
+              "nivel_riesgo_pc",
+              [
+                "mediano",
+                "alto"
+              ]
+            ]
+          },
+          "hace_cirugia"
+        ]
+      },
+      "requisitos": [
+        "Programa Específico de PC por consultor con registro estatal",
+        "Dictamen estructural (DRO)",
+        "Dictámenes eléctrico y de gas (UVIE/UVI)",
+        "Póliza de seguro de responsabilidad civil",
+        "Acta de unidad interna",
+        "Calendario de mantenimiento y simulacros",
+        "Catálogo de sustancias peligrosas (oxígeno, gases medicinales)"
+      ],
+      "costo_mxn": null,
+      "plazo": "No verificado",
+      "vigencia": "Anual (no verificado)",
+      "recurrencia_meses": 12,
+      "canal": "ventanilla",
+      "requiere_usuario": [
+        "firma_solicitud",
+        "pago_derechos",
+        "visita_inspeccion"
+      ],
+      "fuente": "https://naucalpan.gob.mx/wp-content/uploads/2025/02/FORMATO-DE-INGRESO-DE-PROTECCION-CIVIL.pdf",
+      "confianza": "secundario",
+      "verificado_en": "2026-10-19",
+      "alerta": "La clasificación de riesgo por SCIAN está en un apéndice del Reglamento del Libro Sexto que no se pudo consultar. En Toluca este Programa Específico estatal sustituye al visto bueno municipal para licencia y refrendo."
+    },
+    {
+      "id": "metepec_cedula_zonificacion",
+      "nombre": "Cédula informativa de zonificación",
+      "nivel": "municipal",
+      "estado": "MEX",
+      "municipio": "metepec",
+      "autoridad": "Desarrollo Urbano de Metepec",
+      "tipo": "tramite",
+      "aplica_si": true,
+      "requisitos": [
+        "Solicitud",
+        "Croquis de ubicación"
+      ],
+      "costo_uma": 2.84,
+      "plazo": "No verificado",
+      "vigencia": "—",
+      "canal": "no_verificado",
+      "precede_a": [
+        "metepec_licencia_uso_suelo",
+        "metepec_licencia_funcionamiento"
+      ],
+      "requiere_usuario": [
+        "firma_solicitud",
+        "pago_derechos"
+      ],
+      "fuente": "Código Financiero del Edomex, art. 144 fr. XII",
+      "confianza": "secundario",
+      "verificado_en": "2026-10-19"
+    },
+    {
+      "id": "metepec_licencia_uso_suelo",
+      "nombre": "Licencia de uso del suelo",
+      "nivel": "municipal",
+      "estado": "MEX",
+      "municipio": "metepec",
+      "autoridad": "Desarrollo Urbano de Metepec",
+      "tipo": "licencia",
+      "aplica_si": true,
+      "requisitos": [
+        "Solicitud",
+        "Documento de propiedad o arrendamiento",
+        "Alineamiento"
+      ],
+      "costo_uma": 10,
+      "costo_nota": "+25 UMA si hay inspección de campo, +50 UMA si hay estudios técnicos",
+      "plazo": "No verificado",
+      "vigencia": "Anual",
+      "recurrencia_meses": 12,
+      "canal": "no_verificado",
+      "precede_a": [
+        "metepec_licencia_funcionamiento"
+      ],
+      "requiere_usuario": [
+        "firma_solicitud",
+        "pago_derechos"
+      ],
+      "fuente": "Código Financiero del Edomex, art. 144 fr. VIII",
+      "confianza": "secundario",
+      "verificado_en": "2026-10-19"
+    },
+    {
+      "id": "metepec_licencia_funcionamiento",
+      "nombre": "Licencia de funcionamiento (bajo impacto vía SARE)",
+      "nivel": "municipal",
+      "estado": "MEX",
+      "municipio": "metepec",
+      "autoridad": "Dirección de Desarrollo Económico, Turístico y Artesanal",
+      "tipo": "licencia",
+      "aplica_si": true,
+      "requisitos": [
+        "Solicitud",
+        "INE",
+        "Título de propiedad o contrato de arrendamiento",
+        "Fotos de fachada, laterales e interior",
+        "Croquis",
+        "Cédula informativa de zonificación",
+        "Licencia de uso de suelo",
+        "Acta constitutiva y poder (persona moral)",
+        "Programa interno o visto bueno de protección civil"
+      ],
+      "costo_mxn": 0,
+      "costo_nota": "Gratuita para bajo impacto según fuente secundaria; clínica con cirugía puede quedar fuera del SARE",
+      "plazo": "48–72 h (ley: 5 días hábiles + 5; afirmativa ficta para bajo impacto)",
+      "vigencia": "Refrendo anual",
+      "recurrencia_meses": 12,
+      "canal": "en_linea",
+      "url": "https://www.metepec.gob.mx/pagina/tramites.php",
+      "requiere_usuario": [
+        "firma_solicitud"
+      ],
+      "fuente": "https://mexico.justia.com/estatales/mexico/leyes/ley-de-competitividad-y-ordenamiento-comercial-del-estado-de-mexico/",
+      "confianza": "secundario",
+      "verificado_en": "2026-10-19",
+      "alerta": "Reforma pendiente en el Congreso del Edomex (aviso de apertura Si-Edomex). Revisar antes de cada trámite."
+    },
+    {
+      "id": "metepec_pc_bajo_riesgo",
+      "nombre": "Dictamen de protección civil de bajo riesgo (incluye revisión de bomberos)",
+      "nivel": "municipal",
+      "estado": "MEX",
+      "municipio": "metepec",
+      "autoridad": "Coordinación Municipal de Protección Civil y Bomberos de Metepec",
+      "tipo": "dictamen",
+      "aplica_si": {
+        "all": [
+          {
+            "not": "hace_cirugia"
+          },
+          {
+            "not": {
+              "in": [
+                "nivel_riesgo_pc",
+                [
+                  "mediano",
+                  "alto"
+                ]
+              ]
+            }
+          }
+        ]
+      },
+      "requisitos": [
+        "Solicitud con declaración de medidas",
+        "INE",
+        "Extintores con factura y responsiva (NOM-002-STPS)",
+        "Señalización (NOM-003-SEGOB)",
+        "Botiquín",
+        "Programa específico de PC",
+        "Constancias de brigadas y simulacros",
+        "Inspección en sitio"
+      ],
+      "costo_mxn": null,
+      "plazo": "Días a 4 semanas",
+      "vigencia": "Año calendario",
+      "recurrencia_meses": 12,
+      "canal": "ventanilla",
+      "requiere_usuario": [
+        "firma_solicitud",
+        "visita_inspeccion"
+      ],
+      "fuente": "https://melchor-ocampo.gob.mx/contenidos/melchor-ocampo/docs/467_dictamen-de-proteccion-civil_26422144727.pdf",
+      "confianza": "secundario",
+      "verificado_en": "2026-10-19"
+    },
+    {
+      "id": "mex_programa_interno_pc",
+      "nombre": "Programa Interno / Específico de Protección Civil (NTE-001-CGPC-2016)",
+      "nivel": "estatal",
+      "estado": "MEX",
+      "autoridad": "Lo elabora consultor con registro estatal",
+      "tipo": "documento",
+      "aplica_si": true,
+      "requisitos": [
+        "Elaborado conforme a NTE-001-CGPC-2016 (act. 2022)",
+        "Firma de consultor registrado en el Registro Estatal"
+      ],
+      "costo_mxn": null,
+      "plazo": "—",
+      "vigencia": "Actualización anual",
+      "recurrencia_meses": 12,
+      "canal": "documento",
+      "requiere_usuario": [
+        "contratar_consultor_registrado"
+      ],
+      "fuente": "https://cemer.edomex.gob.mx/sites/cemer.edomex.gob.mx/files/files/AIR%202022/073/Formato_AIR_Exencion-15.pdf",
+      "confianza": "secundario",
+      "verificado_en": "2026-10-19"
+    },
+    {
+      "id": "toluca_constancia_uso_predio",
+      "nombre": "Constancia Municipal de Identificación y Uso del Predio (modalidad factibilidad de uso de suelo; sustituye a la Cédula Informativa de Zonificación)",
+      "nivel": "municipal",
+      "estado": "MEX",
+      "municipio": "toluca",
+      "autoridad": "Dirección General de Innovación, Planeación y Gestión Urbana",
+      "tipo": "tramite",
+      "aplica_si": true,
+      "requisitos": [
+        "Formato de solicitud",
+        "Acreditación de personalidad (identificación oficial o poder)",
+        "Documento que acredite propiedad o posesión del inmueble"
+      ],
+      "costo_uma": 2.84,
+      "costo_nota": "2.84 UMA = $333.16 es la tarifa de la cédula informativa de zonificación (Código Financiero Edomex art. 144 fr. XII); falta confirmar la tarifa de la constancia fusionada",
+      "plazo": "no verificado",
+      "vigencia": "no verificado",
+      "canal": "no_verificado",
+      "url": "https://tramites.toluca.gob.mx/",
+      "precede_a": [
+        "toluca_licencia_sare",
+        "toluca_licencia_suge",
+        "toluca_licencia_uso_suelo"
+      ],
+      "requiere_usuario": [
+        "firma_solicitud",
+        "pago_derechos"
+      ],
+      "fuente": "https://www2.toluca.gob.mx/wp-content/uploads/2026/03/09-2026-Gaceta-09-03-2026.pdf",
+      "confianza": "oficial",
+      "verificado_en": "2026-10-20",
+      "alerta": "Desde la Gaceta 09/2026 (vigente unos 20 días hábiles después del 9-mar-2026) la cédula informativa de zonificación se fusionó en esta constancia; ya no se quita el croquis como requisito"
+    },
+    {
+      "id": "toluca_licencia_uso_suelo",
+      "nombre": "Licencia de Uso de Suelo",
+      "nivel": "municipal",
+      "estado": "MEX",
+      "municipio": "toluca",
+      "autoridad": "Dirección General de Innovación, Planeación y Gestión Urbana (sistema SILU)",
+      "tipo": "licencia",
+      "aplica_si": {
+        "any": [
+          "hace_cirugia",
+          {
+            "in": [
+              "nivel_riesgo_pc",
+              [
+                "mediano",
+                "alto"
+              ]
+            ]
+          }
+        ]
+      },
+      "requisitos": [
+        "Formato de solicitud",
+        "Documento de propiedad o posesión",
+        "Acreditación de personalidad",
+        "Recibo de pago de impuesto predial",
+        "En su caso, Evaluación de Impacto Estatal o dictamen técnico"
+      ],
+      "costo_uma": 10,
+      "costo_nota": "10 UMA = $1,173.10; +25 UMA ($2,932.75) si requiere inspección de campo; 50 UMA ($5,865.50) si requiere estudios técnicos (Código Financiero Edomex art. 144 fr. VIII)",
+      "plazo": "no verificado",
+      "vigencia": "1 año (prorrogable una vez)",
+      "recurrencia_meses": 12,
+      "canal": "ventanilla",
+      "precede_a": [
+        "toluca_licencia_suge"
+      ],
+      "requiere_usuario": [
+        "firma_solicitud",
+        "pago_derechos",
+        "visita_inspeccion"
+      ],
+      "fuente": "https://leyes-mx.com/codigo_financiero_mexico/144.htm",
+      "confianza": "oficial",
+      "verificado_en": "2026-10-20",
+      "alerta": "También se exige si la constancia de uso de predio marca uso condicionado o un giro específico. Domicilio: Av. Independencia Pte. 207, Centro; tel. 722 276 1900 ext. 516"
+    },
+    {
+      "id": "toluca_licencia_sare",
+      "nombre": "Licencia de Funcionamiento SARE (giros de bajo impacto)",
+      "nivel": "municipal",
+      "estado": "MEX",
+      "municipio": "toluca",
+      "autoridad": "Dirección General de Desarrollo Económico (Ventanilla Única, Plaza Fray Andrés de Castro, edificio B, PB)",
+      "tipo": "licencia",
+      "aplica_si": {
+        "all": [
+          {
+            "not": "hace_cirugia"
+          },
+          {
+            "not": {
+              "in": [
+                "nivel_riesgo_pc",
+                [
+                  "mediano",
+                  "alto"
+                ]
+              ]
+            }
+          }
+        ]
+      },
+      "requisitos": [
+        "Formato Único de Apertura / solicitud SARE y carta compromiso de medidas de Protección Civil",
+        "Identificación oficial",
+        "Cédula informativa de zonificación / Constancia de uso del predio",
+        "Fotografías del inmueble (interior y exterior)",
+        "Documento de propiedad o posesión del inmueble",
+        "Visto bueno del Plan de Emergencia de Protección Civil",
+        "Acta constitutiva y poder (personas morales)"
+      ],
+      "costo_mxn": 0,
+      "costo_nota": "Gratuito según fuentes secundarias; los derechos de anuncio se pagan aparte",
+      "plazo": "72 horas (el negocio puede operar con el acuse)",
+      "vigencia": "Año fiscal; refrendo anual",
+      "recurrencia_meses": 12,
+      "canal": "ventanilla",
+      "url": "https://tramites.toluca.gob.mx/",
+      "precede_a": [],
+      "requiere_usuario": [
+        "firma_solicitud",
+        "visita_inspeccion"
+      ],
+      "fuente": "https://www2.toluca.gob.mx/251485-2/",
+      "confianza": "oficial",
+      "verificado_en": "2026-10-20",
+      "alerta": "Toluca hace una verificación (Dictamen de Verificación SARE, gratuito). No se verificó si el consultorio estético con láser entra al catálogo de bajo impacto Refrendo anual en enero, febrero o marzo."
+    },
+    {
+      "id": "toluca_licencia_suge",
+      "nombre": "Licencia de Funcionamiento por Sistema Único de Gestión Empresarial (SUGE) – mediano/alto impacto",
+      "nivel": "municipal",
+      "estado": "MEX",
+      "municipio": "toluca",
+      "autoridad": "Dirección General de Desarrollo Económico",
+      "tipo": "licencia",
+      "aplica_si": {
+        "any": [
+          "hace_cirugia",
+          {
+            "in": [
+              "nivel_riesgo_pc",
+              [
+                "mediano",
+                "alto"
+              ]
+            ]
+          }
+        ]
+      },
+      "requisitos": [
+        "Solicitud",
+        "Identificación oficial",
+        "Constancia de uso del predio",
+        "Licencia de uso de suelo",
+        "Plan/Programa de Protección Civil",
+        "Dictamen de giro",
+        "Incinerador o convenio registrado de manejo de RPBI (Bando art. 72)",
+        "Fotografías del inmueble"
+      ],
+      "costo_mxn": null,
+      "costo_nota": "no verificado",
+      "plazo": "No mayor a 30 días hábiles",
+      "vigencia": "Año fiscal; refrendo anual",
+      "recurrencia_meses": 12,
+      "canal": "ventanilla",
+      "precede_a": [],
+      "requiere_usuario": [
+        "firma_solicitud",
+        "pago_derechos",
+        "visita_inspeccion"
+      ],
+      "fuente": "https://www2.toluca.gob.mx/251485-2/",
+      "confianza": "oficial",
+      "verificado_en": "2026-10-20",
+      "alerta": "Bando 2026 art. 72: no se otorgan ni revalidan licencias a clínicas sin incinerador o convenio de RPBI registrado. Refrendo anual en enero, febrero o marzo."
+    },
+    {
+      "id": "toluca_autorizacion_funcionamiento_art70",
+      "nombre": "Autorización de funcionamiento para unidades de bajo impacto hasta 200 m² sin uso de suelo compatible",
+      "nivel": "municipal",
+      "estado": "MEX",
+      "municipio": "toluca",
+      "autoridad": "Dirección General de Desarrollo Económico",
+      "tipo": "licencia",
+      "aplica_si": {
+        "all": [
+          {
+            "not": "hace_cirugia"
+          },
+          "uso_suelo_no_compatible"
+        ]
+      },
+      "requisitos": [
+        "Solicitud",
+        "Identificación oficial",
+        "Documento de propiedad o posesión",
+        "Dos fotografías a color del establecimiento",
+        "Pago de derechos"
+      ],
+      "costo_uma": 5,
+      "costo_nota": "Entre 3 y 5 UMA según el tamaño del local ($351.93–$586.55), según fuente secundaria",
+      "plazo": "Menos de 24 horas",
+      "vigencia": "90 días hábiles, renovable hasta obtener el cambio de uso de suelo",
+      "recurrencia_meses": 3,
+      "canal": "ventanilla",
+      "requiere_usuario": [
+        "firma_solicitud",
+        "pago_derechos"
+      ],
+      "fuente": "https://www.digitalmex.mx/municipios/story/70039/toluca-ofrece-regularizacion-pequenos-negocios-sin-uso-suelo-comercial",
+      "confianza": "secundario",
+      "verificado_en": "2026-10-20",
+      "alerta": "Base legal: Bando Municipal 2026 art. 70. Es temporal mientras se obtiene el cambio de uso de suelo."
+    },
+    {
+      "id": "toluca_pc_visto_bueno_plan_emergencia",
+      "nombre": "Visto Bueno del Plan de Emergencia (alta y revalidación de licencia, giros de bajo impacto)",
+      "nivel": "municipal",
+      "estado": "MEX",
+      "municipio": "toluca",
+      "autoridad": "Coordinación de Protección Civil y Bomberos (Secretaría del Ayuntamiento)",
+      "tipo": "dictamen",
+      "aplica_si": {
+        "all": [
+          {
+            "not": "hace_cirugia"
+          },
+          {
+            "not": {
+              "in": [
+                "nivel_riesgo_pc",
+                [
+                  "mediano",
+                  "alto"
+                ]
+              ]
+            }
+          }
+        ]
+      },
+      "requisitos": [
+        "Oficio de solicitud",
+        "Identificación oficial (y carta poder, si aplica)",
+        "Zonificación de uso de suelo",
+        "Georreferencia",
+        "Constancias de capacitación",
+        "Equipo básico: señalización, botiquín, croquis interno",
+        "Comprobante de recarga de extintores",
+        "Si usa gas: foto de la placa del tanque o recibo de gas natural",
+        "Plan de emergencia anual y simulacro anual (Bando art. 103)"
+      ],
+      "costo_mxn": null,
+      "costo_nota": "no verificado",
+      "plazo": "no verificado",
+      "vigencia": "Anual",
+      "recurrencia_meses": 12,
+      "canal": "no_verificado",
+      "precede_a": [
+        "toluca_licencia_sare"
+      ],
+      "requiere_usuario": [
+        "firma_solicitud",
+        "visita_inspeccion"
+      ],
+      "fuente": "https://www2.toluca.gob.mx/wp-content/uploads/2020/08/tol-pdf-pcyb-tramites20.pdf",
+      "confianza": "oficial",
+      "verificado_en": "2026-10-20",
+      "alerta": "Requisitos tomados de un documento de 2020 (envío por correo a pc.bomberos2@toluca.gob.mx y pc.bomberos3@toluca.gob.mx); confirmar si siguen vigentes"
+    },
+    {
+      "id": "toluca_licencia_ambiental",
+      "nombre": "Licencia Ambiental Municipal (antes Licencia de Funcionamiento para Emisiones a la Atmósfera, fuentes fijas)",
+      "nivel": "municipal",
+      "estado": "MEX",
+      "municipio": "toluca",
+      "autoridad": "Dirección General de Medio Ambiente",
+      "tipo": "licencia",
+      "aplica_si": {
+        "giro": "clinica_cirugia"
+      },
+      "requisitos": [
+        "Acreditación de personalidad",
+        "Uso de suelo",
+        "Programa interno de contingencias",
+        "Cédula de operación (en los supuestos del Código Reglamentario)"
+      ],
+      "costo_mxn": null,
+      "costo_nota": "no verificado",
+      "plazo": "20 días hábiles",
+      "vigencia": "no verificado",
+      "canal": "no_verificado",
+      "requiere_usuario": [
+        "firma_solicitud",
+        "pago_derechos",
+        "visita_inspeccion"
+      ],
+      "fuente": "https://www2.toluca.gob.mx/wp-content/uploads/2026/03/09-2026-Gaceta-09-03-2026.pdf",
+      "confianza": "oficial",
+      "verificado_en": "2026-10-20",
+      "alerta": "No se confirmó si aplica a clínicas; en principio solo con fuentes fijas de emisión (planta de emergencia, caldera)"
+    },
+    {
+      "id": "toluca_anuncio_fachada",
+      "nombre": "Autorización municipal para anuncio publicitario / identificación en fachada",
+      "nivel": "municipal",
+      "estado": "MEX",
+      "municipio": "toluca",
+      "autoridad": "no verificado (Bando art. 69 solo dice 'autoridad municipal'; se rige por el Código Reglamentario)",
+      "tipo": "tramite",
+      "aplica_si": true,
+      "requisitos": [
+        "no verificado"
+      ],
+      "costo_mxn": null,
+      "costo_nota": "Pago de derechos o impuesto por anuncios según el Código Financiero Edomex (secundario); monto no verificado",
+      "plazo": "no verificado",
+      "vigencia": "no verificado",
+      "canal": "no_verificado",
+      "requiere_usuario": [
+        "firma_solicitud",
+        "pago_derechos"
+      ],
+      "fuente": "https://www2.toluca.gob.mx/wp-content/uploads/2026/02/BANDO-MUNICIPAL-TOLUCA-2026_ESP_web.pdf",
+      "confianza": "no_verificado",
+      "verificado_en": "2026-10-20",
+      "alerta": "Los anuncios no pueden invadir la vía pública y las mantas solo pueden ir adosadas a la fachada. Además, los anuncios de servicios de salud requieren permiso o aviso de COFEPRIS por separado"
+    }
+  ],
+  "obligaciones_continuas": [
+    {
+      "id": "nom_004",
+      "nombre": "NOM-004-SSA3-2012 Expediente clínico",
+      "aplica_si": {
+        "any_giro": [
+          "consultorio_general",
+          "consultorio_estetico",
+          "clinica_cirugia"
+        ]
+      }
+    },
+    {
+      "id": "nom_005",
+      "nombre": "NOM-005-SSA3-2018 Infraestructura de consultorios ambulatorios",
+      "aplica_si": {
+        "any_giro": [
+          "consultorio_general",
+          "consultorio_estetico"
+        ]
+      }
+    },
+    {
+      "id": "nom_016",
+      "nombre": "NOM-016-SSA3-2012 Hospitales y consultorios de atención especializada",
+      "aplica_si": {
+        "giro": "clinica_cirugia"
+      }
+    },
+    {
+      "id": "nom_006_045_022_019",
+      "nombre": "NOM-006 (anestesia), NOM-045 (nosocomiales), NOM-022 (infusión), NOM-019 (enfermería)",
+      "aplica_si": {
+        "giro": "clinica_cirugia"
+      }
+    },
+    {
+      "id": "nom_087",
+      "nombre": "NOM-087-SEMARNAT-SSA1-2002 RPBI: separación, almacenamiento, manifiestos",
+      "aplica_si": {
+        "any_giro": [
+          "consultorio_general",
+          "consultorio_estetico",
+          "clinica_cirugia"
+        ]
+      }
+    },
+    {
+      "id": "antibioticos_2010",
+      "nombre": "Acuerdo DOF 27-may-2010: venta de antibióticos solo con receta, retención y registro por 365 días",
+      "aplica_si": {
+        "all": [
+          {
+            "giro": "farmacia"
+          },
+          "vende_antibioticos"
+        ]
+      }
+    },
+    {
+      "id": "nom_024",
+      "nombre": "NOM-024-SSA3-2012 Expediente clínico electrónico (aplica al software si se usa como ECE)",
+      "aplica_si": true
+    }
+  ]
+}
