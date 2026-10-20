@@ -33,6 +33,11 @@ Consola de la agencia de trámites para consultorios y clínicas (COFEPRIS, COPR
 | `BUCKET`, `ENDPOINT`, `REGION`, `ACCESS_KEY_ID`, `SECRET_ACCESS_KEY`, `BUCKET_URL_STYLE` | Almacenamiento |
 | `ANTHROPIC_API_KEY` / `OPENAI_API_KEY` | Revisión automática de documentos (opcional) |
 
+## Publicar
+
+- **Render**: Dashboard → New → Blueprint → este repositorio. `render.yaml` crea el servicio web, la base Postgres y un disco de 1 GB para los archivos. El código de configuración inicial (`SETUP_CODE`) se genera solo y se ve en Environment del servicio.
+- **Railway**: servicio desde GitHub + plantilla Postgres + bucket; variables como en la tabla de arriba.
+
 ## Desarrollo
 
 ```bash
